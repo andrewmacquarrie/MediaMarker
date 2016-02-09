@@ -70,11 +70,15 @@ Player::Player(QWidget *parent)
     connect(player, SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),
             this, SLOT(statusChanged(QMediaPlayer::MediaStatus)));
     connect(player, SIGNAL(bufferStatusChanged(int)), this, SLOT(bufferingProgress(int)));
-    connect(player, SIGNAL(videoAvailableChanged(bool)), this, SLOT(videoAvailableChanged(bool)));
     connect(player, SIGNAL(error(QMediaPlayer::Error)), this, SLOT(displayErrorMessage()));
 
-    videoWidget = new VideoWidget(this);
-    player->setVideoOutput(videoWidget);
+    //videoWidget = new VideoWidget;
+    videoItem = new QGraphicsVideoItem;
+    player->setVideoOutput(videoItem);
+
+    QGraphicsScene *scene = new QGraphicsScene;
+    graphicsView = new QGraphicsView(scene);
+    scene->addItem(videoItem);
 
     playlistModel = new PlaylistModel(this);
     playlistModel->setPlaylist(playlist);
@@ -112,18 +116,16 @@ Player::Player(QWidget *parent)
     connect(controls, SIGNAL(changeMuting(bool)), player, SLOT(setMuted(bool)));
     connect(controls, SIGNAL(changeRate(qreal)), player, SLOT(setPlaybackRate(qreal)));
 
-    connect(controls, SIGNAL(stop()), videoWidget, SLOT(update()));
+    //connect(controls, SIGNAL(stop()), videoItem, SLOT(update()));
 
     connect(player, SIGNAL(stateChanged(QMediaPlayer::State)),
             controls, SLOT(setState(QMediaPlayer::State)));
     connect(player, SIGNAL(volumeChanged(int)), controls, SLOT(setVolume(int)));
     connect(player, SIGNAL(mutedChanged(bool)), controls, SLOT(setMuted(bool)));
 
-    fullScreenButton = new QPushButton(tr("FullScreen"), this);
-    fullScreenButton->setCheckable(true);
-
     QBoxLayout *displayLayout = new QHBoxLayout;
-    displayLayout->addWidget(videoWidget, 2);
+    //displayLayout->addWidget(videoWidget, 2);
+    displayLayout->addWidget(graphicsView);
     displayLayout->addWidget(playlistView);
 
     QBoxLayout *controlLayout = new QHBoxLayout;
@@ -132,7 +134,6 @@ Player::Player(QWidget *parent)
     controlLayout->addStretch(1);
     controlLayout->addWidget(controls);
     controlLayout->addStretch(1);
-    controlLayout->addWidget(fullScreenButton);
 
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(displayLayout);
@@ -152,8 +153,6 @@ Player::Player(QWidget *parent)
         controls->setEnabled(false);
         playlistView->setEnabled(false);
         openButton->setEnabled(false);
-
-        fullScreenButton->setEnabled(false);
     }
 
     metaDataChanged();
@@ -294,25 +293,6 @@ void Player::handleCursor(QMediaPlayer::MediaStatus status)
 void Player::bufferingProgress(int progress)
 {
     setStatusInfo(tr("Buffering %4%").arg(progress));
-}
-
-void Player::videoAvailableChanged(bool available)
-{
-    if (!available) {
-        disconnect(fullScreenButton, SIGNAL(clicked(bool)),
-                    videoWidget, SLOT(setFullScreen(bool)));
-        disconnect(videoWidget, SIGNAL(fullScreenChanged(bool)),
-                fullScreenButton, SLOT(setChecked(bool)));
-        videoWidget->setFullScreen(false);
-    } else {
-        connect(fullScreenButton, SIGNAL(clicked(bool)),
-                videoWidget, SLOT(setFullScreen(bool)));
-        connect(videoWidget, SIGNAL(fullScreenChanged(bool)),
-                fullScreenButton, SLOT(setChecked(bool)));
-
-        if (fullScreenButton->isChecked())
-            videoWidget->setFullScreen(true);
-    }
 }
 
 void Player::setTrackInfo(const QString &info)

@@ -46,6 +46,8 @@
 #include <QWidget>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QGraphicsVideoItem>
+#include <QGraphicsView>
 
 class QAbstractItemView;
 class QLabel;
@@ -83,7 +85,6 @@ private slots:
 
     void statusChanged(QMediaPlayer::MediaStatus status);
     void bufferingProgress(int progress);
-    void videoAvailableChanged(bool available);
 
     void displayErrorMessage();
 
@@ -98,6 +99,8 @@ private:
     QMediaPlayer *player;
     QMediaPlaylist *playlist;
     VideoWidget *videoWidget;
+    QGraphicsView *graphicsView;
+    QGraphicsVideoItem *videoItem;
     QLabel *coverLabel;
     QSlider *slider;
     int sliderScale;

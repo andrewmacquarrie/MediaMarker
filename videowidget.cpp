@@ -53,6 +53,7 @@ VideoWidget::VideoWidget(QWidget *parent)
     setPalette(p);
 
     setAttribute(Qt::WA_OpaquePaintEvent);
+
 }
 
 void VideoWidget::keyPressEvent(QKeyEvent *event)
