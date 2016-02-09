@@ -75,6 +75,7 @@ Player::Player(QWidget *parent)
     //videoWidget = new VideoWidget;
     videoItem = new QGraphicsVideoItem;
     player->setVideoOutput(videoItem);
+    videoItem->setSize(QSizeF(2000,1000));
 
     QGraphicsScene *scene = new QGraphicsScene;
     graphicsView = new QGraphicsView(scene);
@@ -125,7 +126,7 @@ Player::Player(QWidget *parent)
 
     QBoxLayout *displayLayout = new QHBoxLayout;
     //displayLayout->addWidget(videoWidget, 2);
-    displayLayout->addWidget(graphicsView);
+    displayLayout->addWidget(graphicsView, 2);
     displayLayout->addWidget(playlistView);
 
     QBoxLayout *controlLayout = new QHBoxLayout;

@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     player.setAttribute(Qt::WA_LockLandscapeOrientation);
     player.showMaximized();
 #else
-    player.show();
+    player.showMaximized();
 #endif
     return app.exec();
 }
