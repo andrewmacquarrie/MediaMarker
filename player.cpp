@@ -82,10 +82,6 @@ Player::Player(QWidget *parent)
     graphicsView = new QGraphicsView(scene);
     scene->addItem(videoItem);
 
-    QGraphicsRectItem* item1 = new QGraphicsRectItem(300,300,120,120);
-    item1->setBrush(QBrush(Qt::red));
-    scene->addItem(item1);
-
     playlistModel = new PlaylistModel(this);
     playlistModel->setPlaylist(playlist);
 

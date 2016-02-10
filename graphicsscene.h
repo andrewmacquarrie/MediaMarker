@@ -13,11 +13,14 @@ public:
     explicit GraphicsScene(QObject *parent = 0);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent * mouseEvent);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void addItem(QGraphicsItem * item);
+
 signals:
 
 public slots:
 
 private:
+    QGraphicsRectItem* item1;
 };
 
 #endif // GRAPHICSSCENE_H
