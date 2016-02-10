@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 #include "player.h"
+#include "graphicsscene.h"
 
 #include "playercontrols.h"
 #include "playlistmodel.h"
@@ -77,9 +78,13 @@ Player::Player(QWidget *parent)
     player->setVideoOutput(videoItem);
     videoItem->setSize(QSizeF(2000,1000));
 
-    QGraphicsScene *scene = new QGraphicsScene;
+    GraphicsScene * scene = new GraphicsScene();
     graphicsView = new QGraphicsView(scene);
     scene->addItem(videoItem);
+
+    QGraphicsRectItem* item1 = new QGraphicsRectItem(300,300,120,120);
+    item1->setBrush(QBrush(Qt::red));
+    scene->addItem(item1);
 
     playlistModel = new PlaylistModel(this);
     playlistModel->setPlaylist(playlist);
