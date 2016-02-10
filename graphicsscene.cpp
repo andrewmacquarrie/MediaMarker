@@ -33,6 +33,7 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
 
 void GraphicsScene::addItem(QGraphicsItem * item)
 {
+    // keep marker above all other items.
     QGraphicsScene::addItem(item);
     item1->setZValue(item->zValue() + 1);
 }

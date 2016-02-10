@@ -80,6 +80,7 @@ Player::Player(QWidget *parent)
 
     GraphicsScene * scene = new GraphicsScene();
     graphicsView = new QGraphicsView(scene);
+    graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     scene->addItem(videoItem);
 
     playlistModel = new PlaylistModel(this);
